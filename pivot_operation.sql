@@ -472,7 +472,7 @@ select
 	sum(case when month='2008-02' then total end) as total_2008_02,
 	sum(case when month='2008-01' then handgun end) as handgun_2008_01,
 	sum(case when month='2008-01' then rifle end) as rifle_2008_01,
-	sum(case when month='2008-01' then total end) as total_2008_01,
+	sum(case when month='2008-01' then total end) as total_2008_01
 	
 from 
     "math264_panic_buying"
