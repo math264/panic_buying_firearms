@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>title</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,800&display=swap"
+		rel="stylesheet">
+	<style>
+		body {
+			background: #20282e;
+			font-family: 'Open Sans', sans-serif;
+			font-weight: 400;
+		}
+
+		h1 {
+			font-weight: 800;
+		}
+
+		p {
+			line-height: 1.7rem;
+		}
+
+		#map {
+			height: 80vh;
+			background: #20282e;
+		}
+
+		#legend {
+			font-size: 1rem;
+			border-radius: 5px;
+			max-width: 200px;
+			font-family: 'Open Sans', sans-serif;
+		}
+
+		#legend span {
+			width: 20px;
+			height: 20px;
+			float: left;
+			margin: 0 10px 4px 0;
+		}
+
+		#legend label {
+			font-size: 0.9rem;
+		}
+
+		#legend label:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+
+		/* Small devices (landscape phones, 576px and up) */
+		@media (min-width: 576px) {}
+
+		/* Medium devices (tablets, 768px and up) */
+		@media (min-width: 768px) {
+
+			aside {
+				height: 80vh;
+			}
+		}
+
+		/* Large devices (desktops, 992px and up) */
+		@media (min-width: 992px) {}
+
+		/* Extra large devices (large desktops, 1200px and up) */
+		@media (min-width: 1200px) {}
+	</style>
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<header class="row bg-dark text-warning py-3">
+			<div class="col">
+				<h1>Panic Buying Firearms in 2020, U.S.</h1>
+			</div>
+		</header>
+
+		<section class="row">
+			<div class="col-md-8 col-lg-9 col-xl-10 order-md-2 px-0">
+				<div id="map"></div>
+			</div>
+			<aside id="about"
+				class="col-md-4 col-lg-3 col-xl-2 order-md-1 text-white py-2 pl-3 bg-secondary overflow-auto">
+				<section>
+					<h3 class="py-2 text-warning">Response to Civil Unrest</h3>
+					<p>A fan brush is a fantastic piece of equipment. Use it. Make friends with it. We're not trying to
+						teach you
+						a thing to copy. We're just here to teach you a technique, then let you loose into the world.
+						We'll put a
+						happy little sky in here.</p>
+					<p>You are only limited by your imagination. We'll do another happy little painting. Work on one
+						thing at a
+						time. Don't get carried away - we have plenty of time. Look at them little rascals. We'll put
+						all the little
+						clouds in and let them dance around and have fun. You can spend all day playing with mountains.
+					</p>
+				</section>
+			</aside>
+		</section>
+
+		<footer class="row bg-dark text-white py-3">
+			<div class="col">
+				<ul class="list-unstyled">
+					<li>authored by <a href="#">Michael A. Thomas</a></li>
+					<li>Date of authored map</li>
+					<li>data source: <a href="#">data source</a></li>
+				</ul>
+			</div>
+		</footer>
+	</div>
+
+	<!-- legend is outside of container-fluid and will be dynamically added to map -->
+	<div class="bg-secondary py-2 px-3 ml-3 mt-3 text-white" id="legend"></div>
+
+	<!-- ui is outside of container-fluid and will be dynamically added to map -->
+	<div class="form-group mr-3 mt-3" id="dropdown-ui">
+		<select class="form-control bg-primary text-white">
+			<option value="OWNED_MORT" selected>owned with mortgage</option>
+			<option value="OWNED_FREE">owned free and clear</option>
+			<option value="RENTER">rented</option>
+		</select>
+	</div>
+
+	<!-- jQuery first and the minified version from jQuery site, not the slim minified version from Bootstrap's site. -->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+		integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<!-- then Popper JS -->
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<!-- then Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+		integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+		crossorigin="anonymous"></script>
+	<!-- then Leaflet JS -->
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+		crossorigin=""></script>
+	<!-- then Simple Statistics -->
+	<script src='https://unpkg.com/simple-statistics@7.3.0/dist/simple-statistics.min.js'></script>
+
+	<!-- CUSTOM JS CODE -->
+	<script>
+		// initial Leaflet map options
+		const options = {
+			zoomSnap: .1,
+			// center: [40, -90],
+			// zoom: 4
+			zoomControl: false
+		}
+
+		// create Leaflet map and apply options
+		const map = L.map('map', options);
+		// Adding new Zoom Control button to right side
+		new L.control.zoom({ position: "bottomright" }).addTo(map)
+		// request a basemap tile layer and add to the map
+		L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map)
+
+		$.getJSON("/data/firearm_sales_2008_2020.geojson", function (data) {
+			// jQuery method uses AJAX request for the GeoJSON data
+			drawMap(data);
+		});
+
+		function drawMap(data) {
+			const states = L.geoJson(data, {
+				// style counties with initial default path options
+				style: function (feature) {
+					return {
+						color: '#20282e',
+						weight: 2,
+						fillOpacity: 1,
+						fillColor: '#1f78b4'
+					};
+				},
+				// add hover/touch functionality to each feature layer
+				onEachFeature: function (feature, layer) {
+
+					// when mousing over a layer
+					layer.on('mouseover', function () {
+
+						// change the stroke color and bring that element to the front
+						layer.setStyle({
+							color: '#ff6e00'
+						}).bringToFront();
+					});
+
+					// on mousing off layer
+					layer.on('mouseout', function () {
+
+						// reset the layer style to its original stroke color
+						layer.setStyle({
+							color: '#20282e'
+						});
+					});
+				}
+			}).addTo(map);
+			// fit the map's bounds and zoom level using the counties extent
+			map.fitBounds(states.getBounds(), {
+				padding: [18, 18] // add padding around counties
+			});
+			// calling updateMap function
+			updateMap(states);
+			addUi(states); // add the UI controls
+		}
+
+		function updateMap(states) {
+			console.log(states);
+			// get the class breaks for the current data attribute
+			const breaks = getClassBreaks(states);
+
+			// loop through each county layer to update the color and tooltip info
+			states.eachLayer(function (layer) {
+
+				const props = layer.feature.properties;
+
+				// set the fill color of layer based on its normalized data value
+				layer.setStyle({
+					fillColor: getColor(props[attributeValue] /
+						props[normValue], breaks)
+				});
+
+				// assemble string sequence of info for tooltip (end line break with + operator)
+				let tooltipInfo = `<b>${props["NAME"]} State</b></br>
+		  ${((props[attributeValue] / props[normValue]) * 100).toLocaleString()}%`
+
+				// bind a tooltip to layer with county-specific information
+				layer.bindTooltip(tooltipInfo, {
+					// sticky property so tooltip follows the mouse
+					sticky: true
+				});
+
+			});
+
+			// update the legend with the current data attribute information
+			addLegend(breaks);
+		}
+
+
+		// Get class breaks in data 
+		function getClassBreaks(states) {
+
+			// create empty Array for storing values
+			const values = [];
+
+			// loop through all the counties
+			counties.eachLayer(function (layer) {
+				let value = layer.feature.properties[attributeValue] / layer.feature.properties[normValue];
+				values.push(value); // push the normalized value for each layer into the Array
+			});
+
+			// determine similar clusters
+			const clusters = ss.ckmeans(values, 5);
+
+			// create an array of the lowest value within each cluster
+			const breaks = clusters.map(function (cluster) {
+				return [cluster[0], cluster.pop()];
+			});
+
+			//return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
+			return breaks;
+		}
+
+		// Get color of county
+		function getColor(d, breaks) {
+			// function accepts a single normalized data attribute value
+			// and uses a series of conditional statements to determine which
+			// which color value to return to return to the function caller
+
+			if (d <= breaks[0][1]) {
+				return '#f1eef6';
+			} else if (d <= breaks[1][1]) {
+				return '#bdc9e1';
+			} else if (d <= breaks[2][1]) {
+				return '#74a9cf';
+			} else if (d <= breaks[3][1]) {
+				return '#2b8cbe'
+			} else if (d <= breaks[4][1]) {
+				return '#045a8d'
+			}
+		}
+
+		function addLegend(breaks) {
+
+			// create a new Leaflet control object, and position it top left
+			const legendControl = L.control({ position: 'topleft' });
+
+			// when the legend is added to the map
+			legendControl.onAdd = function () {
+
+				// select a div element with an id attribute of legend
+				const legend = L.DomUtil.get('legend');
+
+				// disable scroll and click/touch on map when on legend
+				L.DomEvent.disableScrollPropagation(legend);
+				L.DomEvent.disableClickPropagation(legend);
+
+				// return the selection to the method
+				return legend;
+
+			};
+
+			// add the empty legend div to the map
+			legendControl.addTo(map);
+
+			// select the legend, add a title, begin an unordered list and assign to a variable
+			const legend = $('#legend').html(`<h5>${labels[attributeValue]}</h5>`);
+
+			// loop through the Array of classification break values
+			for (let i = 0; i <= breaks.length - 1; i++) {
+
+				let color = getColor(breaks[i][0], breaks);
+
+				legend.append(
+					`<span style="background:${color}"></span>
+	<label>${(breaks[i][0] * 100).toLocaleString()} &mdash;
+	${(breaks[i][1] * 100).toLocaleString()}%</label>`);
+			}
+		}
+
+		function updateLegend() {
+
+		}
+
+		function addUi(counties) {
+			// create the slider control
+			var selectControl = L.control({ position: "topright" });
+
+			// when control is added
+			selectControl.onAdd = function () {
+				// get the element with id attribute of ui-controls
+				return L.DomUtil.get("dropdown-ui");
+			};
+			// add the control to the map
+			selectControl.addTo(map);
+
+			$('#dropdown-ui select').change(function () {
+				// code executed here when change event occurs
+				attributeValue = this.value; // logs to console all possible options
+				updateMap(counties);
+			});
+		}
+	</script>
+</body>
+
+</html>
