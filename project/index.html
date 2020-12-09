@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>title</title>
+	<title>Firearm Panic Buying, 2020</title>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
 		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -12,9 +12,13 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
 		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
 		crossorigin="" />
-	<!-- Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,800&display=swap"
-		rel="stylesheet">
+	<!-- Goldman Font -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Goldman&display=swap" rel="stylesheet">
+	<!-- Hind Siliguri Font -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Goldman&family=Hind+Siliguri:wght@300&display=swap" rel="stylesheet">
+
 	<style>
 		body {
 			background: #20282e;
@@ -24,10 +28,20 @@
 
 		h1 {
 			font-weight: 800;
+			font-family:'Goldman';
+		}
+
+		h3 {
+			font-weight: 200;
+			font-family: 'Hind Siliguri';
 		}
 
 		p {
 			line-height: 1.7rem;
+		}
+
+		a {
+			color: #f0ad4e;
 		}
 
 		#map {
@@ -95,16 +109,29 @@
 				class="col-md-4 col-lg-3 col-xl-2 order-md-1 text-white py-2 pl-3 bg-secondary overflow-auto">
 				<section>
 					<h3 class="py-2 text-warning">Response to Civil Unrest</h3>
-					<p>A fan brush is a fantastic piece of equipment. Use it. Make friends with it. We're not trying to
-						teach you
-						a thing to copy. We're just here to teach you a technique, then let you loose into the world.
-						We'll put a
-						happy little sky in here.</p>
-					<p>You are only limited by your imagination. We'll do another happy little painting. Work on one
-						thing at a
-						time. Don't get carried away - we have plenty of time. Look at them little rascals. We'll put
-						all the little
-						clouds in and let them dance around and have fun. You can spend all day playing with mountains.
+					<p>The main focus of this map is to emphasize the surge of firearms purchased in 2020. The spread of 
+						COVID-19 and the pending presidential election only exacerbated what can be described as firearm
+						panic buying. To aid in emphasizing the magnitude of firearm purchases this year, NICS firearm data
+						going back to 2008 helps give the 2020 some depth and reference. Regardless of your views on the 2nd Amendment and firearms, I wish to point out that
+						in times of civil unrest, everyone's priority is protecting themselves and their loved ones by any means
+						necessary. This takes priority over political beliefs. 
+						<br><br>
+					<h3 class="py-2 text-warning">First-time Owners</h3>
+					<p>A large reason why 2020 has been a pivotal year in firearm and ammunition sales,
+						is new firearm owners. The NSSF (National Shooting Sports Foundation) shared a retail-based 
+						survey article breaking down this year's record setting numbers. 
+						The <a target="_blank" href="https://www.nssf.org/first-time-gun-buyers-grow-to-nearly-5-million-in-2020/">NSSF</a> 
+						survey estimates about 40% of all firearm purchases this year are thanks to those who never previously owned a firearm. 
+						12.1 million firearms purchased between January and July of 2020 is a new record; approximately 
+						a 71.1% increase compared to those months last year. There are many other amazing statistics, so if you are curious,
+						click the NSSF link!
+					</p>
+					<h3 class="py-2 text-warning">Notice</h3>
+						All data presented was documented by the FBI via the NICS 
+						(National Instant Criminal Background Check System), ergo <span style="color: #f0ad4e">LEGALLY</span> obtained firearms.
+					</p>
+
+					<p>
 					</p>
 				</section>
 			</aside>
@@ -113,9 +140,9 @@
 		<footer class="row bg-dark text-white py-3">
 			<div class="col">
 				<ul class="list-unstyled">
-					<li>authored by <a href="#">Michael A. Thomas</a></li>
-					<li>Date of authored map</li>
-					<li>data source: <a href="#">data source</a></li>
+					<li>Authored by <a href="https://math264.github.io/">Michael A. Thomas</a> @ NEWMAPSPLUS</li>
+					<li>December 23, 2020</li>
+		<li>data source: <a target="_blank" href="https://data.world/buzzfeednews/nics-background-check-counts">FBI NICS</a></li>
 				</ul>
 			</div>
 		</footer>
@@ -170,189 +197,172 @@
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map)
 
+		// AJAX REQUEST for GeoJSON data
 		$.getJSON("/data/firearm_sales_2008_2020.geojson", function (data) {
 			// jQuery method uses AJAX request for the GeoJSON data
 			drawMap(data);
 		});
 
-		function drawMap(data) {
-			const states = L.geoJson(data, {
-				// style counties with initial default path options
-				style: function (feature) {
-					return {
-						color: '#20282e',
-						weight: 2,
-						fillOpacity: 1,
-						fillColor: '#1f78b4'
-					};
-				},
-				// add hover/touch functionality to each feature layer
-				onEachFeature: function (feature, layer) {
+		// // Creating breaks and colors
+		// function processData(counties, csv) {
 
-					// when mousing over a layer
-					layer.on('mouseover', function () {
+		// }
 
-						// change the stroke color and bring that element to the front
-						layer.setStyle({
-							color: '#ff6e00'
-						}).bringToFront();
-					});
+	function drawMap(data) {
+      const firearms = L.geoJson(data, {
+        // style counties with initial default path options
+        style: function (feature) {
+          return {
+            color: '#20282e',
+            weight: 1,
+            fillOpacity: 1,
+            fillColor: '#1f78b4'
+          };
+        },
+        // add hover/touch functionality to each feature layer
+        onEachFeature: function (feature, layer) {
 
-					// on mousing off layer
-					layer.on('mouseout', function () {
+          // when mousing over a layer
+          layer.on('mouseover', function () {
 
-						// reset the layer style to its original stroke color
-						layer.setStyle({
-							color: '#20282e'
-						});
-					});
-				}
-			}).addTo(map);
-			// fit the map's bounds and zoom level using the counties extent
-			map.fitBounds(states.getBounds(), {
-				padding: [18, 18] // add padding around counties
-			});
-			// calling updateMap function
-			updateMap(states);
-			addUi(states); // add the UI controls
-		}
+            // change the stroke color and bring that element to the front
+            layer.setStyle({
+              color: '#ff6e00'
+            }).bringToFront();
+          });
 
-		function updateMap(states) {
-			console.log(states);
-			// get the class breaks for the current data attribute
-			const breaks = getClassBreaks(states);
+          // on mousing off layer
+          layer.on('mouseout', function () {
 
-			// loop through each county layer to update the color and tooltip info
-			states.eachLayer(function (layer) {
+            // reset the layer style to its original stroke color
+            layer.setStyle({
+              color: '#20282e'
+            });
+          });
+        }
+      }).addTo(map);
+      // fit the map's bounds and zoom level using the counties extent
+      // map.fitBounds(countiesLayer.getBounds(), {
+      //   padding: [18, 18] // add padding around counties
+      // });
+    	//  calling createSliderUI
+      createSliderUI(firearms);
+    	// calling updateMap function
+      updateMap(firearms);
 
-				const props = layer.feature.properties;
+	function updateMap(firearms) {
+      // loop through each county layer to update the color and tooltip info
+      counties.eachLayer(function (layer) {
 
-				// set the fill color of layer based on its normalized data value
-				layer.setStyle({
-					fillColor: getColor(props[attributeValue] /
-						props[normValue], breaks)
-				});
+        const props = layer.feature.properties;
+        // console.log(props.unemploymentData[currentYear])
+        // set the fill color of layer based on its normalized data value
+        // build tooltip
+        let tooltipInfo = ''
+        if (props.unemploymentData != undefined) {
+          layer.setStyle({
+            fillColor: colorize(Number(props.unemploymentData[currentYear]))
+          });
+          tooltipInfo = `<b>${props.unemploymentData["NAME"]} County</b></br>
+              ${props.unemploymentData[currentYear]}% Unemployment`;
 
-				// assemble string sequence of info for tooltip (end line break with + operator)
-				let tooltipInfo = `<b>${props["NAME"]} State</b></br>
-		  ${((props[attributeValue] / props[normValue]) * 100).toLocaleString()}%`
+        } else {
+          tooltipInfo = 'No data'
+          layer.setStyle({
+            fillColor: 'lightgray'
+          });
+        }
+        // bind a tooltip to layer with county-specific information
+        layer.bindTooltip(tooltipInfo, {
+          // sticky property so tooltip follows the mouse
+          sticky: true
+        });
+        
+      });
+    }
 
-				// bind a tooltip to layer with county-specific information
-				layer.bindTooltip(tooltipInfo, {
-					// sticky property so tooltip follows the mouse
-					sticky: true
-				});
+    function drawLegend(breaks, colorize) {
+      // create a Leaflet control for the legend
+      const legendControl = L.control({
+        position: 'topright'
+      });
 
-			});
+      // when the control is added to the map
+      legendControl.onAdd = function (map) {
 
-			// update the legend with the current data attribute information
-			addLegend(breaks);
-		}
+        // create a new division element with class of 'legend' and return
+        const legend = L.DomUtil.create('div', 'legend');
+        return legend;
+
+      };
+
+      // add the legend control to the map
+      legendControl.addTo(map);
+
+      // select div and create legend title
+      const legend = $('.legend').html("<h3><span>2001</span> Unemployment Rates</h3><ul>");
+
+        // What color is returned when the value is outside of the breaks?  
+      console.log(colorize('What color is returned?'))
+
+      // loop through the break values
+      for (let i = 0; i < breaks.length - 1; i++) {
+
+        // determine color value 
+        const color = colorize(breaks[i], breaks);
+
+        // create legend item
+        const classRange = `<li><span style="background:${color}"></span>
+        ${breaks[i].toFixed(2)} &mdash;
+        ${breaks[i + 1].toFixed(2)}% </li>`
+
+        // append to legend unordered list item
+        $('.legend ul').append(classRange);
+      }
+      // Add legend item for missing data
+			$('.legend ul').append(`<li><span style="background:lightgray"></span>
+                              Data not available</li>`)
+      // close legend unordered list
+      legend.append("</ul>");
+
+    } // end drawLegend()
+
+    function createSliderUI(countiesLayer, colorize) {
+      // create Leaflet control for the slider
+      const sliderControl = L.control({ position: 'bottomleft' });
+
+      // when added to the map
+      sliderControl.onAdd = function (map) {
+
+        // select an existing DOM element with an id of "ui-controls"
+        const slider = L.DomUtil.get("ui-controls");
+
+        // disable scrolling of map while using controls
+        L.DomEvent.disableScrollPropagation(slider);
+
+        // disable click events while using controls
+        L.DomEvent.disableClickPropagation(slider);
+
+        // return the slider from the onAdd method
+        return slider;
+      }
+
+      // add the control to the map
+      sliderControl.addTo(map);
+
+      // select the form element
+      $(".year-slider")
+        .on("input change", function () { // when user changes
+          const currentYear = this.value; // update the year
+          $('.legend h3 span').html(currentYear); // update the map with current timestamp
+          updateMap(countiesLayer, colorize, currentYear); // update timestamp in legend heading
+        });
+    } // end createSliderUI()
+    }
 
 
-		// Get class breaks in data 
-		function getClassBreaks(states) {
-
-			// create empty Array for storing values
-			const values = [];
-
-			// loop through all the counties
-			counties.eachLayer(function (layer) {
-				let value = layer.feature.properties[attributeValue] / layer.feature.properties[normValue];
-				values.push(value); // push the normalized value for each layer into the Array
-			});
-
-			// determine similar clusters
-			const clusters = ss.ckmeans(values, 5);
-
-			// create an array of the lowest value within each cluster
-			const breaks = clusters.map(function (cluster) {
-				return [cluster[0], cluster.pop()];
-			});
-
-			//return array of arrays, e.g., [[0.24,0.25], [0.26, 0.37], etc]
-			return breaks;
-		}
-
-		// Get color of county
-		function getColor(d, breaks) {
-			// function accepts a single normalized data attribute value
-			// and uses a series of conditional statements to determine which
-			// which color value to return to return to the function caller
-
-			if (d <= breaks[0][1]) {
-				return '#f1eef6';
-			} else if (d <= breaks[1][1]) {
-				return '#bdc9e1';
-			} else if (d <= breaks[2][1]) {
-				return '#74a9cf';
-			} else if (d <= breaks[3][1]) {
-				return '#2b8cbe'
-			} else if (d <= breaks[4][1]) {
-				return '#045a8d'
-			}
-		}
-
-		function addLegend(breaks) {
-
-			// create a new Leaflet control object, and position it top left
-			const legendControl = L.control({ position: 'topleft' });
-
-			// when the legend is added to the map
-			legendControl.onAdd = function () {
-
-				// select a div element with an id attribute of legend
-				const legend = L.DomUtil.get('legend');
-
-				// disable scroll and click/touch on map when on legend
-				L.DomEvent.disableScrollPropagation(legend);
-				L.DomEvent.disableClickPropagation(legend);
-
-				// return the selection to the method
-				return legend;
-
-			};
-
-			// add the empty legend div to the map
-			legendControl.addTo(map);
-
-			// select the legend, add a title, begin an unordered list and assign to a variable
-			const legend = $('#legend').html(`<h5>${labels[attributeValue]}</h5>`);
-
-			// loop through the Array of classification break values
-			for (let i = 0; i <= breaks.length - 1; i++) {
-
-				let color = getColor(breaks[i][0], breaks);
-
-				legend.append(
-					`<span style="background:${color}"></span>
-	<label>${(breaks[i][0] * 100).toLocaleString()} &mdash;
-	${(breaks[i][1] * 100).toLocaleString()}%</label>`);
-			}
-		}
-
-		function updateLegend() {
-
-		}
-
-		function addUi(counties) {
-			// create the slider control
-			var selectControl = L.control({ position: "topright" });
-
-			// when control is added
-			selectControl.onAdd = function () {
-				// get the element with id attribute of ui-controls
-				return L.DomUtil.get("dropdown-ui");
-			};
-			// add the control to the map
-			selectControl.addTo(map);
-
-			$('#dropdown-ui select').change(function () {
-				// code executed here when change event occurs
-				attributeValue = this.value; // logs to console all possible options
-				updateMap(counties);
-			});
-		}
+	
+		
 	</script>
 </body>
 
