@@ -245,10 +245,10 @@
       //  calling createSliderUI
       createSliderUI(countiesLayer, colorize);
       // calling updateMap function
-      updateMap(countiesLayer, colorize, '2001');
+      updateMap(countiesLayer, colorize, '2008_01');
     }
 
-    function updateMap(counties, colorize, currentYear) {
+    function updateMap(counties, colorize, date) {
       // loop through each county layer to update the color and tooltip info
       counties.eachLayer(function (layer) {
 
@@ -257,12 +257,14 @@
         // set the fill color of layer based on its normalized data value
         // build tooltip
         let tooltipInfo = ''
-        if (props.unemploymentData != undefined) {
+        let currentDate = `firearm_sales_total_${date}`
+        console.log(props)
+        if (props != undefined) {
           layer.setStyle({
-            fillColor: colorize(Number(props.unemploymentData[currentYear]))
+            fillColor: colorize(Number(props[currentDate]))
           });
-          tooltipInfo = `<b>${props.unemploymentData["NAME"]} County</b></br>
-              ${props.unemploymentData[currentYear]}% Unemployment`;
+          // tooltipInfo = `<b>${props.unemploymentData["NAME"]} County</b></br>
+          //     ${props.unemploymentData[currentYear]}% Unemployment`;
 
         } else {
           tooltipInfo = 'No data'
