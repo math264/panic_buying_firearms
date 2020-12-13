@@ -205,8 +205,8 @@
     });
     // END OF AJAX REQUEST
 
-    function drawMap(counties, colorize) {
-      const countiesLayer = L.geoJson(counties, {
+    function drawMap(state, colorize) {
+      const firearms = L.geoJson(state, {
         // style counties with initial default path options
         style: function (feature) {
           return {
@@ -243,9 +243,9 @@
       //   padding: [18, 18] // add padding around counties
       // });
       //  calling createSliderUI
-      createSliderUI(countiesLayer, colorize);
+      createSliderUI(firearms, colorize);
       // calling updateMap function
-      updateMap(countiesLayer, colorize, '2008_01');
+      updateMap(firearms, colorize, '2008_01');
     }
 
     function updateMap(counties, colorize, date) {
@@ -284,7 +284,7 @@
     function drawLegend(breaks, colorize) {
       // create a Leaflet control for the legend
       const legendControl = L.control({
-        position: 'topright'
+        position: 'bottomright'
       });
 
       // when the control is added to the map
