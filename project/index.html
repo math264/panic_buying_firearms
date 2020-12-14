@@ -122,7 +122,7 @@
 		}
 
 		footer {
-		padding: 6px 10%;
+		padding: 6px;
 		width: 80%;
 		}
 	/* MOBILE-FRIENDLY SETTINGS */
@@ -156,9 +156,9 @@
 				<div id="map"></div>
 				<div id="ui-controls">
 					<label>
-					  <span class="min">2008</span>
-					  <span class="max">2020</span>
-					  <input type="range" min="2008" , max="2015" , value="2008" , step="1" , class="year-slider">
+					  <span class="min">1</span>
+					  <span class="max">238</span>
+					  <input type="range" min="1" , max="238" , value="1" , step="1" , class="year-slider">
 					</label>
 				  </div>
 			</div>
@@ -194,7 +194,7 @@
 			</aside>
 		</section>
 
-		<footer class="row bg-dark text-white py-3">
+		<footer class="row bg-dark text-white">
 			<div class="col">
 				<ul class="list-unstyled">
 					<li>Authored by <a href="https://math264.github.io/">Michael A. Thomas</a> @ NEWMAPSPLUS</li>
@@ -325,7 +325,7 @@
       //  calling createSliderUI
       createSliderUI(stateLayer, colorize);
       // calling updateMap function
-      updateMap(stateLayer, colorize, '2008_01');
+      updateMap(stateLayer, colorize, '2020_03');
     }
 
     function updateMap(state, colorize, date) {
@@ -434,7 +434,9 @@
       $(".year-slider")
         .on("input change", function () { // when user changes
           const currentYear = this.value; // update the year
-          $('.legend h3 span').html(currentYear); // update the map with current timestamp
+		  $('.legend h3 span').html(currentYear); // update the map with current timestamp
+		//   if ${".year-slider"} = 1
+		//   then 
           updateMap(stateLayer, colorize, currentYear); // update timestamp in legend heading
         });
     } // end createSliderUI()
