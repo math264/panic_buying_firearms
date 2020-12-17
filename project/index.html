@@ -94,6 +94,14 @@
 		margin-right: 10px;
 		}
 
+		.picture {
+		width: 30px;
+		height: 20px;
+		float: left;
+		margin-right: 10px;
+		}
+		
+
 		#ui-controls {
 		width: 176px;
 		padding: 8px 25px 8px 15px;
@@ -125,6 +133,7 @@
 		padding: 6px;
 		width: 80%;
 		}
+
 	/* MOBILE-FRIENDLY SETTINGS */
 		/* Small devices (landscape phones, 576px and up) */
 		@media (min-width: 576px) {}
@@ -145,10 +154,13 @@
 <!--  BODY -->
 <body>
 	<div class="container-fluid">
-		<header class="row bg-dark text-warning py-3">
+		<header class="row bg-dark text-warning py-3" 
+		style="background-image: 
+		url('https://cdn.hipwallpaper.com/i/14/15/f4VKHu.jpg'); background-repeat: no-repeat; background-size: cover;">
 			<div class="col">
 				<h1>Panic Buying Firearms in 2020, U.S.</h1>
 			</div>
+			<div class="bg-image"></div>
 		</header>
 
 		<section class="row">
@@ -160,6 +172,9 @@
 					  <span class="max">238</span>
 					  <input type="range" min="1" , max="238" , value="1" , step="1" , class="year-slider">
 					</label>
+				  </div>
+				  <div class="picture">
+					
 				  </div>
 			</div>
 			<aside id="about"
@@ -203,6 +218,7 @@
 				</ul>
 			</div>
 			<hr>
+			<div class="col">
 			<a href="https://newmapsplus.github.io">
 				<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png"
 					alt="University of Kentucky Geography">
@@ -212,6 +228,7 @@
 				<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png"
 					alt="University of Kentucky Geography">
 			</a>
+			</div>
 		</footer>
 	</div>
 
