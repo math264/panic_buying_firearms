@@ -450,14 +450,43 @@
       // select the form element
       $(".year-slider")
         .on("input change", function () { // when user changes
-          const currentYear = this.value; // update the year
-		  $('.legend h3 span').html(currentYear); // update the map with current timestamp
+		  //const currentYear = this.value; // update the year
+		  const slider = this.value; // update the year
+          const yearMonth = calculateYearMonth(slider)
+		  $('.legend h3 span').html(yearMonth); // update the map with current timestamp
 		//   if ${".year-slider"} = this.value
 		//   let date = ${year}_${month}
 		// Then maybe create two variables, year and month?
-          updateMap(stateLayer, colorize, currentYear); // update timestamp in legend heading
+          updateMap(stateLayer, colorize, yearMonth); // update timestamp in legend heading
         });
-    } // end createSliderUI()
+	} // end createSliderUI()
+	
+
+    function calculateYearMonth(slider) {
+	  // Create some empty variables
+      let year = ''
+      let month = ''
+      const x = slider/12 // divide by twelve
+      const y = slider%12 // find the remainder of a division by 12
+
+	  // Modify for all years
+      if (x <= 1) {
+        year = '2008'
+      } else if (x <= 2) {
+        year = '2009'
+      }
+
+	  // Modify to include 12, i.e., if remainder is 0...
+      if (y < 10) { 
+        month = `0${y}`
+      } else {
+        month = y
+      }
+	  
+	 console.log(`${year}_${month}`) 
+      return `${year}_${month}`
+
+    }
 	</script>
 </body>
 
