@@ -169,8 +169,8 @@
 				<div id="ui-controls">
 					<label>
 					  <span class="min">1</span>
-					  <span class="max">238</span>
-					  <input type="range" min="1" , max="238" , value="1" , step="1" , class="year-slider">
+					  <span class="max">154</span>
+					  <input type="range" min="1" , max="154" , value="1" , step="1" , class="year-slider">
 					</label>
 				  </div>
 				  <div class="picture">
@@ -342,7 +342,7 @@
       //  calling createSliderUI
       createSliderUI(stateLayer, colorize);
       // calling updateMap function
-      updateMap(stateLayer, colorize, '2020_03');
+      updateMap(stateLayer, colorize, '2008_01');
     }
 
     function updateMap(state, colorize, date) {
@@ -470,17 +470,39 @@
       const y = slider%12 // find the remainder of a division by 12
 
 	  // Modify for all years
-      if (x <= 1) {
+      if (x <= 0) {
         year = '2008'
-      } else if (x <= 2) {
+      } else if (x <= 1) {
         year = '2009'
-      }
+      } else if (x <= 2) {
+        year = '2010'
+      } else if (x <= 3) {
+        year = '2011'
+      } else if (x <= 4) {
+        year = '2012'
+      } else if (x <= 5) {
+        year = '2013'
+      } else if (x <= 6) {
+        year = '2014'
+      } else if (x <= 7) {
+        year = '2015'
+      } else if (x <= 8) {
+        year = '2016'
+      } else if (x <= 9) {
+        year = '2017'
+      } else if (x <= 10) {
+        year = '2018'
+      } else if (x <= 11) {
+        year = '2019'
+      } else (x <= 12) 
+        year = '2020'
+	  
 
 	  // Modify to include 12, i.e., if remainder is 0...
       if (y < 10) { 
         month = `0${y}`
       } else {
-        month = y
+        month = `${y}`
       }
 	  
 	 console.log(`${year}_${month}`) 
