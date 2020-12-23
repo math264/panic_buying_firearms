@@ -44,7 +44,8 @@
 		}
 
 		a {
-			color: #f0ad4e;
+			color: #6a79ff;
+			text-decoration:underline;
 		}
 
 		#map {
@@ -108,7 +109,7 @@
 		background: rgba(75, 75, 75, 0.8);
 		box-shadow: 0 0 15px #f0ad4e;
 		border-radius: 5px;
-		color: #f0ad4e;
+		color: #ffffff;
 		}
 
 		#ui-controls .min {
@@ -166,10 +167,11 @@
 		<section class="row">
 			<div class="col-md-8 col-lg-9 col-xl-10 order-md-2 px-0">
 				<div id="map"></div>
-				<div id="ui-controls">
+				<div id="ui-controls" style="background-image: 
+				url('https://cdn.hipwallpaper.com/i/14/15/f4VKHu.jpg'); background-repeat: no-repeat; background-size: cover;">>
 					<label>
-					  <span class="min">1</span>
-					  <span class="max">154</span>
+					  <span class="min">2008</span>
+					  <span class="max">2020</span>
 					  <input type="range" min="1" , max="154" , value="1" , step="1" , class="year-slider">
 					</label>
 				  </div>
@@ -209,7 +211,7 @@
 			</aside>
 		</section>
 
-		<footer class="row bg-dark text-white">
+		<footer class="row bg-dark text-warning" >
 			<div class="col">
 				<ul class="list-unstyled">
 					<li>Authored by <a href="https://math264.github.io/">Michael A. Thomas</a> @ NEWMAPSPLUS</li>
@@ -281,7 +283,8 @@
       // push TOTAL attribute values into the array
       total.push(Number(state.properties[prop]));
     }
-      }
+	  }
+	  console.log(state.properties)
 });
 
     // verify the result!
@@ -289,7 +292,7 @@
 
       // create class breaks
       var breaks = chroma.limits(total, 'q', 5);
-
+		// console.log(total)
       // create color generator function
       var colorize = chroma.scale(chroma.brewer.OrRd).classes(breaks).mode('lab');
       // console.log(colorize) // function (a){var b;return b=s(u(a)),m&&b[m]?b[m]():b}
@@ -353,7 +356,7 @@
         // console.log(props.unemploymentData[currentYear])
         // set the fill color of layer based on its normalized data value
         // build tooltip
-        let tooltipInfo = ''
+        let tooltipInfo = `${props.NAME}` 
         let currentDate = `firearm_sales_total_${date}`
         // console.log(props)
         if (props != undefined) {
@@ -397,7 +400,7 @@
       legendControl.addTo(map);
 
       // select div and create legend title
-      const legend = $('.legend').html("<h3><span>2001</span> Unemployment Rates</h3><ul>");
+      const legend = $('.legend').html("<h3><span>2008_01</span> <br><br> Total Firearms Purchased</h3><ul>");
 
         // What color is returned when the value is outside of the breaks?  
       console.log(colorize('What color is returned?'))
@@ -410,8 +413,8 @@
 
         // create legend item
         const classRange = `<li><span style="background:${color}"></span>
-        ${breaks[i].toFixed(2)} &mdash;
-        ${breaks[i + 1].toFixed(2)}% </li>`
+        ${breaks[i].toFixed(0)} &mdash;
+        ${breaks[i + 1].toFixed(0)} </li>`
 
         // append to legend unordered list item
         $('.legend ul').append(classRange);
@@ -466,9 +469,9 @@
 	  // Create some empty variables
       let year = ''
       let month = ''
-      const x = slider/12 // divide by twelve
+      const x = Math.floor(slider/12) // divide by twelve
       const y = slider%12 // find the remainder of a division by 12
-
+	console.log(x)
 	  // Modify for all years
       if (x <= 0) {
         year = '2008'
@@ -494,14 +497,16 @@
         year = '2018'
       } else if (x <= 11) {
         year = '2019'
-      } else (x <= 12) 
-        year = '2020'
+      } else {
+        year = '2020'}
 	  
 
 	  // Modify to include 12, i.e., if remainder is 0...
       if (y < 10) { 
         month = `0${y}`
-      } else {
+	  } else if (y == 0){
+		  month = 12}
+	  else {
         month = `${y}`
       }
 	  
